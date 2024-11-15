@@ -3,16 +3,6 @@ This is a collection of miscellaneous code snippets by Donghwan Hyun.
 The repository is public but is primarily intended for team members of GWUniverse at SNU.
 
 
-Projected visualizations of a wide sky area can be made more convenient with `ligo.skymap`, which can be installed as follows.
-Also refer to their official documentation: https://lscsoft.docs.ligo.org/ligo.skymap/quickstart/install.html
-```
-$ conda config --add channels conda-forge
-$ conda config --set channel_priority strict
-$ conda install ligo.skymap
-```
-
-
-
 ##  Install
 
 Clone the repository
@@ -59,5 +49,16 @@ dh.overlay_tiles(color="k", fontsize=6.6)
 
 ## Setting Up Paths to Large Data
 
-If you use this code in QSO, the SNU server for astronomy, the absolute paths to the GW skymaps are already set.
+If you use this code on QSO, the SNU astronomy server, the absolute paths to the GW skymaps are already configured.
 But you can always look into `gwloc.select_skymap` if you are in another environment or want to add other skymaps.
+
+## Recommendations
+
+Projected visualizations of a wide sky area can be made more convenient with `ligo.skymap`, which can be installed as follows.
+Also refer to their official documentation: https://lscsoft.docs.ligo.org/ligo.skymap/quickstart/install.html
+```
+$ conda config --add channels conda-forge
+$ conda config --set channel_priority strict
+$ conda install ligo.skymap
+```
+
