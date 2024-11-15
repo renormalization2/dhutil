@@ -26,6 +26,7 @@ def deg2hms(deg):
 
 def lapse(cp1=None, explanation="elapsed", report=True, end="\n"):
     """
+    cp for CheckPoint!
     lapse takes a predefined timeit.default_timer value
     and returns the current timeit.default_timer value,
     printing the difference of the two with an explanation.

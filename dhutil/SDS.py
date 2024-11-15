@@ -1,7 +1,6 @@
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
-from astropy.io import ascii
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 from astropy.wcs import WCS
@@ -19,26 +18,33 @@ from astropy.visualization.wcsaxes import WCSAxes
 
 
 def path_set():
-    import sys
     from pathlib import Path
 
-    path_thisfile = Path(__file__).resolve()
-    path_src = path_thisfile.parent  # absolute path of dhutil
-    path_root = path_src.parent  # parent of dhutil
-    if path_root not in map(Path, sys.path):
-        sys.path.append(str(path_root))
-    return path_src
+    Path_thisfile = Path(__file__).resolve()
+    Path_src = Path_thisfile.parent  # absolute path of dhutil
+    Path_root = Path_src.parent  # parent of dhutil
+    # if path_root not in map(Path, sys.path):
+    #     import sys
+    #     sys.path.append(str(path_root))
+    return Path_root
 
 
-def get_tiles(indices, center=False):
-    path_src = path_set()
+def get_tiles(indices=None, center=False):
+    from astropy.io import ascii
+
+    Path_root = path_set()
     if center:
-        center = ascii.read(str(path_src / "displaycenter.txt"))
-        # center = ascii.read("/Users/dhhyun/VSCode/7DT/displaycenter.txt")
-        return center[indices]
-    vertices = ascii.read(str(path_src / "displayfootprint.txt"))
-    # vertices = ascii.read("/Users/dhhyun/VSCode/7DT/displayfootprint.txt")
-    return vertices[indices]
+        center = ascii.read(str(Path_root / "data" / "displaycenter.txt"))
+        if indices == None:
+            return center
+        else:
+            return center[indices]
+
+    vertices = ascii.read(str(Path_root / "data" / "displayfootprint.txt"))
+    if indices == None:
+        return vertices
+    else:
+        return vertices[indices]
 
 
 # # Legacy Ver. failed attempt at elegance
@@ -240,9 +246,8 @@ def overlay_tiles(margin_deg=2, margin_pix=30, hltiles={}, **kwargs_label):
     # clip_on has no effect with wcs projection. set margin_pix higher
     kwargs_label.setdefault("clip_on", True)
 
-    path_src = path_set()
-    center = ascii.read(str(path_src / "displaycenter.txt"))
-    vertices = ascii.read(str(path_src / "displayfootprint.txt"))
+    center = get_tiles(center=True)
+    vertices = get_tiles()
 
     # Get RA/Dec range from current axis limits
     ax = plt.gca()
@@ -525,9 +530,6 @@ if __name__ == "__main__":
 # %%
 # in combination with other dhutil packages
 if __name__ == "__main__":
-    import sys
-
-    sys.path.append("/Users/dhhyun/VSCode/GWInference")
     import dhutil as dh
 
     dh.get_gw(190814, show=True)
