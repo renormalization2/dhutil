@@ -67,7 +67,7 @@ hltiles = {11802,
         8591, 8592}
 dh.overlay_tiles(hltiles=hltiles, hltile_kw={"ls": "dashed"})
 ```
-![Alt text](data/demo2.png)
+![Alt text](data/demo2.png){ width=100px }
 
 ## Setting Up Paths to Large Data
 
