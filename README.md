@@ -45,7 +45,8 @@ ax.grid()
 dh.set_xylim(ax, 108, 123, -34, -21)  # optional
 dh.overlay_tiles(color="k", fontsize=6.6)
 ```
-![Alt text](data/demo1.png)
+<img src="data/demo1.png" alt="Alt text" width="500px">
+<!-- ![Alt text](data/demo1.png) -->
 
 Also if you have the GW skymap path configured, try below!
 ```
@@ -67,7 +68,8 @@ hltiles = {11802,
         8591, 8592}
 dh.overlay_tiles(hltiles=hltiles, hltile_kw={"ls": "dashed"})
 ```
-![Alt text](data/demo2.png){ width=100px }
+<img src="data/demo2.png" alt="Alt text" width="500px">
+<!-- ![Alt text](data/demo2.png) -->
 
 ## Setting Up Paths to Large Data
 
