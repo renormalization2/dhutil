@@ -46,6 +46,25 @@ dh.set_xylim(ax, 108, 123, -34, -21)  # optional
 dh.overlay_tiles(color="k", fontsize=6.6)
 ```
 
+Also if you have the GW skymap path configured, try below!
+```
+import dhutil as dh
+
+dh.get_gw(190814, show=True)
+plt.xlim(9, 26)
+plt.ylim(-34.5, -20)
+hltiles = {11802,
+        11544, 11545, #11546,
+        11287, 11288, 11289,
+        11032, 11033, 11034,
+        10779, 10780, 10781,
+        10527, 10528, 10529,
+        10278, 10279,
+        9063, 9064,
+        8825, 8826, 8827,
+        8591, 8592}
+dh.overlay_tiles(hltiles=hltiles, hltile_kw={"ls": "dashed"})
+```
 
 ## Setting Up Paths to Large Data
 
