@@ -72,8 +72,36 @@ class Lapse:
         return cp2
 
 
-def save():
+def loghist(arr, binsize=30, **kwargs):
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    _min, _max = np.min(arr), np.max(arr)
+    if _min >= 0:
+        bins = np.logspace(np.log10(_min), np.log10(_max), binsize)
+        plt.hist(arr, bins=bins, **kwargs)
+    else:
+        raise ValueError
+
+
+def rangecut(column, lower_cut, upper_cut):
+    condition = (lower_cut < column) & (column < upper_cut)
+    return condition
+    # return table[condition]
+
+
+def save(var, filename="data.pkl"):
     import pickle
+
+    with open(filename, "wb") as f:
+        pickle.dump(var, f)
+
+
+def load(filename="data.pkl"):
+    import pickle
+
+    with open(filename, "rb") as f:
+        return pickle.load(f)
 
 
 def str2bool(val):
