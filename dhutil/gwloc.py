@@ -119,7 +119,7 @@ def return_radec(event_num, ci=0.90, mixed=True):
     return ra, dec
 
 
-def get_gw(event_num, ci=0.90, show=True, return_radec=False, use_mixed=True):
+def get_gw(event_num, ci=0.90, show=True, use_mixed=True):  # , return_radec=False
     """
     when return_radec is true, returns (ra , dec) in rad
     """
@@ -161,11 +161,14 @@ def get_gw(event_num, ci=0.90, show=True, return_radec=False, use_mixed=True):
         ax.set_ylabel("Dec ($^\circ$)")
         ax.set_aspect("equal")
         ax.legend()
-
-    if return_radec:
-        return ra, dec
-    else:
         return fig, ax
+
+    else:
+        return ra, dec
+    # if return_radec:
+    #     return ra, dec
+    # else:
+    #     return fig, ax
 
 
 class a_u:
