@@ -192,32 +192,62 @@ def str2bool(val):
         raise ValueError("invalid truth value %r" % (val,))
 
 
-def save_as_fits_ldac(outbl, tablename):
+# def save_as_fits_ldac(outbl, tablename):
+#     """
+#     Save input table as FITS_LDAC format
+
+#     Parameters:
+#     outbl (Table): Astropy Table to save
+#     tablename (str): save name
+
+#     Returns:
+#     None
+#     """
+#     from astropy.io import fits
+
+#     # BINTABLE
+#     hdul = fits.HDUList()
+
+#     # Initialize Primary HDU (Header Only, no data)
+#     primary_hdu = fits.PrimaryHDU()
+#     hdul.append(primary_hdu)
+
+#     # input table to LDAC_OBJECTS
+#     bintable_hdu = fits.BinTableHDU(outbl, name="LDAC_OBJECTS")
+#     hdul.append(bintable_hdu)
+
+#     # save as fits ldac
+#     hdul.writeto(tablename, overwrite=True)
+
+
+def write_ldac(catalog_table, filename):
     """
-    Save input table as FITS_LDAC format
-
-    Parameters:
-    outbl (Table): Astropy Table to save
-    tablename (str): save name
-
-    Returns:
-    None
+    Save an astropy Table as a valid FITS-LDAC catalog
+    that SCAMP / SWarp / etc. will accept.
     """
     from astropy.io import fits
 
-    # BINTABLE
-    hdul = fits.HDUList()
+    # 1) Primary HDU (empty)
+    hdu_primary = fits.PrimaryHDU()
 
-    # Initialize Primary HDU (Header Only, no data)
-    primary_hdu = fits.PrimaryHDU()
-    hdul.append(primary_hdu)
+    # 2) LDAC_IMHEAD extension (contains image header cards)
+    #    SExtractor typically writes one row per 80-char "card".
+    #    Here we make a trivial/empty version.
+    col_imhead = fits.Column(
+        name="Field Header Card", format="80A", array=[b""] * 1
+    )  # At least 1 row
+    hdu_imhead = fits.BinTableHDU.from_columns([col_imhead], name="LDAC_IMHEAD")
 
-    # input table to LDAC_OBJECTS
-    bintable_hdu = fits.BinTableHDU(outbl, name="LDAC_OBJECTS")
-    hdul.append(bintable_hdu)
+    # 3) LDAC_OBJECTS extension (your actual catalog data)
+    hdu_objects = fits.BinTableHDU.from_columns(
+        catalog_table.columns, name="LDAC_OBJECTS"  # or fits.ColDefs(...) if you prefer
+    )
 
-    # save as fits ldac
-    hdul.writeto(tablename, overwrite=True)
+    # Combine them into an HDUList
+    hdulist = fits.HDUList([hdu_primary, hdu_imhead, hdu_objects])
+
+    # Write to disk
+    hdulist.writeto(filename, overwrite=True)
 
 
 def overlay_hptiles(nside=32, ra_min=30, ra_max=40, dec_min=-40, dec_max=-30):
