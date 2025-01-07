@@ -192,12 +192,38 @@ def str2bool(val):
         raise ValueError("invalid truth value %r" % (val,))
 
 
-def overlay_hptiles(ra_min=30, ra_max=40, dec_min=-40, dec_max=-30):
+def save_as_fits_ldac(outbl, tablename):
+    """
+    Save input table as FITS_LDAC format
+
+    Parameters:
+    outbl (Table): Astropy Table to save
+    tablename (str): save name
+
+    Returns:
+    None
+    """
+    from astropy.io import fits
+
+    # BINTABLE
+    hdul = fits.HDUList()
+
+    # Initialize Primary HDU (Header Only, no data)
+    primary_hdu = fits.PrimaryHDU()
+    hdul.append(primary_hdu)
+
+    # input table to LDAC_OBJECTS
+    bintable_hdu = fits.BinTableHDU(outbl, name="LDAC_OBJECTS")
+    hdul.append(bintable_hdu)
+
+    # save as fits ldac
+    hdul.writeto(tablename, overwrite=True)
+
+
+def overlay_hptiles(nside=32, ra_min=30, ra_max=40, dec_min=-40, dec_max=-30):
     import numpy as np
     import matplotlib.pyplot as plt
     import healpy as hp
-
-    nside = 32
 
     # Total number of pixels in this resolution
     npix = hp.nside2npix(nside)

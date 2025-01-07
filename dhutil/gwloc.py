@@ -157,8 +157,8 @@ def get_gw(event_num, ci=0.90, show=True, use_mixed=True):  # , return_radec=Fal
         stepsize = 5
         start, end = ax.get_ylim()
         ax.yaxis.set_ticks(np.arange(int(start), end + stepsize, stepsize))
-        ax.set_xlabel("RA ($^\circ$)")
-        ax.set_ylabel("Dec ($^\circ$)")
+        ax.set_xlabel(r"RA ($^\circ$)")
+        ax.set_ylabel(r"Dec ($^\circ$)")
         ax.set_aspect("equal")
         ax.legend()
         return fig, ax
