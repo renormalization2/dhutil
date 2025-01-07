@@ -239,9 +239,7 @@ def write_ldac(catalog_table, filename):
     hdu_imhead = fits.BinTableHDU.from_columns([col_imhead], name="LDAC_IMHEAD")
 
     # 3) LDAC_OBJECTS extension (your actual catalog data)
-    hdu_objects = fits.BinTableHDU.from_columns(
-        catalog_table.columns, name="LDAC_OBJECTS"  # or fits.ColDefs(...) if you prefer
-    )
+    hdu_objects = fits.BinTableHDU(catalog_table, name="LDAC_OBJECTS")
 
     # Combine them into an HDUList
     hdulist = fits.HDUList([hdu_primary, hdu_imhead, hdu_objects])
