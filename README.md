@@ -1,26 +1,26 @@
 # dhutil
 This is a collection of miscellaneous code snippets by Donghwan Hyun. 
-The repository is public but is primarily intended for team members of GWUniverse at SNU.
+The repository is public but primarily intended for team members of GWUniverse at SNU.
 
 
 ##  Install
 
 Clone the repository
 
-```
-$ git clone https://github.com/renormalization2/dhutil.git
+```bash
+git clone https://github.com/renormalization2/dhutil.git
 ```
 
 navigate into the cloned directory
 
-```
-$ cd dhutil/
+```bash
+cd dhutil/
 ```
 
 and install it in editable mode.
 
-```
-$ pip install -e .
+```bash
+pip install -e .
 ```
 
 Now you can use it just like other packages. e.g.,
