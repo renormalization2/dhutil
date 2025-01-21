@@ -152,6 +152,10 @@ def load(filename="data.pkl"):
         return pickle.load(f)
 
 
+def read(filename="data.pkl"):
+    load(filename)
+
+
 def mjd2moonphase(mjd):
     import numpy as np
     from astropy.time import Time
@@ -175,6 +179,57 @@ def mjd2moonphase(mjd):
 
     # Output the moon phase as a percentage
     return phase
+
+
+def viewer_data(img, dpi=100, cmap="viridis", save=None, **kwargs):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+    from astropy.visualization import ZScaleInterval
+
+    fig, ax = plt.subplots(1, dpi=dpi)  # , figsize=(5,5))
+    if "lim" in kwargs:
+        xl, xu, yl, yu = kwargs["lim"]
+    else:
+        xl, xu, yl, yu = 0, np.shape(img)[1], 0, np.shape(img)[0]
+    img = img[yl:yu, xl:xu]
+
+    interval = ZScaleInterval()
+    vmin, vmax = interval.get_limits(img)
+    im = ax.imshow(img, vmin=vmin, vmax=vmax, cmap=cmap)  # origin='lower',
+    # ax.set_title(title[i])
+    ax.tick_params(axis="both", length=0.0, labelleft=False, labelbottom=False)
+    # ax.text(0.05, 0.95, label[i], fontsize=15.0, fontweight='bold',
+    #         transform=ax.transAxes, ha='left', va='top')
+
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    plt.colorbar(im, cax=cax)
+    # plt.colorbar(im, ax=ax)
+    # plt.show()
+    if save is not None:
+        plt.imsave(save, np.clip(img, 1.03 * vmin, 0.97 * vmax), cmap=cmap)
+
+
+def unique(base_filename):
+    """
+    Modify base_filename by appending a number to make it unique.
+    If base_filename is 'image.png' and it exists, this function will return
+    'image_1.png', 'image_2.png', etc.
+    """
+    import os
+
+    counter = 1
+    filename, file_extension = os.path.splitext(base_filename)
+    new_filename = base_filename
+
+    while os.path.exists(new_filename):
+        new_filename = f"{filename}_{counter}{file_extension}"
+        print(new_filename, "already exists")
+        counter += 1
+
+    print("saving as", new_filename)
+    return new_filename
 
 
 def str2bool(val):
