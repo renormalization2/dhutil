@@ -5,6 +5,7 @@ The repository is public but primarily intended for team members of GWUniverse a
 
 ##  Install
 * There is a version issue with astropy 7.0. install astropy <= 6.
+It works with astropy 6.1.0 and matplotlib 3.8.4
 
 Clone the repository
 

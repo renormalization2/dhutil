@@ -18,7 +18,7 @@ def deg2h(deg):
 def deg2hms(deg):
     from astropy.coordinates import Angle
 
-    ang = Angle(deg, unit=u.deg)
+    ang = Angle(deg, unit="deg")
     hms = ang.hms
     # h = (deg * u.deg).to(u.hourangle).value
     return hms.h, hms.m, round(hms.s, 6)
